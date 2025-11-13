@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Professional Portfolio</title>
     <!-- Load Inter font from Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel-stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Apply Inter font family and smooth scrolling */
         body {
             font-family: 'Inter', sans-serif;
+            /* This property SHOULD enable smooth scrolling, but we reinforce it with JS below */
             scroll-behavior: smooth;
             background-color: #0c111d; /* Dark Blue/Slate background */
         }
@@ -49,6 +50,32 @@
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
         }
+
+        // --- NEW CODE FOR SMOOTH SCROLLING ---
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const hash = this.getAttribute('href');
+                    if (hash === '#') return; // Ignore empty hash links
+
+                    // Prevent the default jump behavior
+                    e.preventDefault(); 
+                    
+                    const targetElement = document.querySelector(hash);
+                    
+                    if (targetElement) {
+                        // Smoothly scroll to the target section
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        
+                        // Update the URL hash in the address bar
+                        history.pushState(null, null, hash);
+                    }
+                });
+            });
+        });
+        // --- END NEW CODE ---
     </script>
 </head>
 
